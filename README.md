@@ -6,7 +6,7 @@ mytoolkit.x
 
 	-DOES NOT HAVE THE CONTROL D SIGNAL HANDLING WORKING
 	
-	-All executables, including mymtimes.x,mytree.x,mytime.x and mytimeout.x will work on this 
+	-All executables work with this
 
 	-Executables such as a.out or one called test MUST need ./a.out or ./test in order to function properly but they work as intended! 
 
