@@ -1,23 +1,33 @@
-mytoolkit.x
-		
-	-PLEASE NOTE: Redirecting a file for input during execution causes infinite loop
-	
-	-Commands must be typed individually, I am unsure why this is the case, maybe due to lack of control d signal handling	
+MyToolkit.x
+Overview
+MyToolkit.x is a comprehensive suite of utilities designed for file management, data processing, and I/O management. Built using C++ in Unix environments, this toolkit aims to provide efficient and user-friendly tools for various system operations.
 
-	-DOES NOT HAVE THE CONTROL D SIGNAL HANDLING WORKING
-	
-	-All executables work with this
+Important Notes
+File Input Redirection: Redirecting a file for input during execution causes an infinite loop.
 
-	-Executables such as a.out or one called test MUST need ./a.out or ./test in order to function properly but they work as intended! 
+Command Execution: Commands must be typed individually. This may be due to the lack of Control-D signal handling.
 
-	-Single piping is it's own case and then multiple pipes are able to be supported after. I would max test 4 but it is capable of more
+Control-D Signal Handling: Control-D signal handling is not implemented in this version.
 
-	-The following works for input/output redirection:  command1 < test1.txt     command1 > test1.txt   command1 < test1.txt > test2.txt
-		No other i/0 style redirection was meant to be implemented and this is what we have
+Features
+Executable Files: All executables work as intended. Executables such as a.out or those named test require ./a.out or ./test to function properly.
 
-	- Please Make Sure all commands are seperated by space  such as: command1 -args   or in cases of piping: ls | sort | wc or I/0 redirect: command1 > test.txt
+Single and Multiple Piping: Single piping is its own case. Multiple pipes are supported, with a recommended maximum of four pipes.
 
-	-I decided to use fork/execvp for this program because I deemed it rather practical to simply create the new processes and run them inside my program rather than creating brand new external ones. I do not have the most experience with forking/execvp and this assignment was a super useful workshop in figuring out how to use them. That is is why i chose to do my special commands: mycd, mypwd and myexit this way.
+Input/Output Redirection: Supported commands for input/output redirection include:
 
+command1 < test1.txt
 
+command1 > test1.txt
 
+command1 < test1.txt > test2.txt
+
+No other I/O redirection styles are implemented.
+
+Command Usage
+Space Separation: Ensure all commands are separated by spaces, such as command1 -args or in cases of piping: ls | sort | wc or I/O redirect: command1 > test.txt.
+
+Implementation Details
+Fork/Execvp Usage: The program uses fork and execvp to create new processes and run them within the program rather than creating new external ones. This approach was deemed practical and provided a useful learning experience with fork and execvp.
+
+Special Commands: Implemented special commands include mycd, mypwd, and myexit using the same fork/execvp approach.
