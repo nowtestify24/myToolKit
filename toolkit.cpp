@@ -70,10 +70,10 @@ tokenCount=j;
 char temp[80];
 strcpy(temp,"");
 int counter=0;
-for(int luffy=0;luffy<tokenCount-1;luffy++)
+for(int lu=0;lu<tokenCount-1;lu++)
 {                                               //NOTE: tokenCount also counts the null character at the end, so it must always be tokenCount-1;
 
-        if(strcmp(s2[luffy],"|")==0)
+        if(strcmp(s2[lu],"|")==0)
         {                                       //here we tokenize all our tokens for each command by the | in order for us to be able to handle piping
 
 
@@ -88,12 +88,12 @@ for(int luffy=0;luffy<tokenCount-1;luffy++)
         {
                 if(strcmp(temp,"")==0)
                 {						
-                        strcpy(temp,s2[luffy]);
+                        strcpy(temp,s2[lu]);
                 }
                 else					//gather up our full command, including all arguments to be included as part of our token
                 {
                         strcat(temp," ");
-                        strcat(temp,s2[luffy]);
+                        strcat(temp,s2[lu]);
                 }
         }
 }
@@ -111,17 +111,17 @@ int counterV2=0;
 redirectCount=0;
 char x[20];
 
-for(int luffy=0;luffy<tokenCount-1;luffy++)
+for(int lu=0;lu<tokenCount-1;lu++)
 {                                               //NOTE: tokenCount also counts the null character at the end, so it must always be tokenCount-1;
 
-        if(strcmp(s2[luffy],">")==0 || strcmp(s2[luffy],"<")==0)
+        if(strcmp(s2[lu],">")==0 || strcmp(s2[lu],"<")==0)
         {                                       
 
 
                 myStuff temp2;
                 strcpy(temp2.token,temp);
                 strcpy(temp,"");
-		if(strcmp(s2[luffy],">")==0)
+		if(strcmp(s2[lu],">")==0)
 		{
 		x[redirectCount]='>';		//store our redirect characters that we will be using
 		}
@@ -137,12 +137,12 @@ for(int luffy=0;luffy<tokenCount-1;luffy++)
         {
                 if(strcmp(temp,"")==0)
                 {
-                        strcpy(temp,s2[luffy]);
+                        strcpy(temp,s2[lu]);
                 }
                 else
                 {
                         strcat(temp," ");
-                        strcat(temp,s2[luffy]);
+                        strcat(temp,s2[lu]);
                 }
         }
 }
@@ -222,12 +222,12 @@ void redirectFunction(myStuff * myList,int tokenCount,char x[])
 {
 pipeStuff commandList[10];
 int counter=0;
-for(int sunny=0;sunny<tokenCount;sunny++)
+for(int s=0;s<tokenCount;s++)
 {
 
         pipeStuff myStuff;
         myStuff.argumentCount=0;
-  char* token = strtok(myList[sunny].token, " ");
+  char* token = strtok(myList[s].token, " ");
         int j=0;
         strcpy(myStuff.command,token);			//this loop of code further tokenizes our tokens
         myStuff.arguments[j]=token;
@@ -292,7 +292,7 @@ if(tokenCount==3 && x[0]=='<' && x[1]=='>')
 {
 pid_t myPid;
 int p[2];
-int zoro=0;
+int z=0;
 int myInput=0;
 
       pipe(p);
@@ -338,13 +338,13 @@ void pipeFunction(myStuff * myList,int tokenCount, char * s2[])
 
 pipeStuff commandList[10];
 int counter=0;
-for(int sunny=0;sunny<tokenCount;sunny++)
+for(int s=0;s<tokenCount;s++)
 {
 
 	pipeStuff myStuff;
 	strcpy(myStuff.fullThing,"");
 	myStuff.argumentCount=0;
-  char* token = strtok(myList[sunny].token, " ");
+  char* token = strtok(myList[s].token, " ");
 	strcat(myStuff.fullThing,token);
         int j=0;
         char * green[80];
@@ -374,7 +374,7 @@ for(int sunny=0;sunny<tokenCount;sunny++)
 
 
 		pipe(pipefd);
-		for(int zoro=0;zoro<tokenCount-1;zoro++)
+		for(int z=0;z<tokenCount-1;z++)
 		{					//this case is for a single pipe and was done this way to achieve practice with double forking
 
 
@@ -384,22 +384,22 @@ for(int sunny=0;sunny<tokenCount;sunny++)
 			 close(pipefd[0]);
      			 dup2(pipefd[1], 1);
       			close(pipefd[1]);
-	 		if(strcmp(commandList[zoro].command,"mypwd")==0)
+	 		if(strcmp(commandList[z].command,"mypwd")==0)
                 	{                               //MYPWD functionality is here. We compare if our input is mypwd or not, if it is call the pwd command. 
                   	execvp("pwd",s2);
                 	}
-              		 else if(strcmp(commandList[zoro].command,"mycd")==0)
+              		 else if(strcmp(commandList[z].command,"mycd")==0)
                      	{
 
-                       	 chdir(commandList[zoro].arguments[1]);
+                       	 chdir(commandList[z].arguments[1]);
                      	}
-           		 else if (execvp(commandList[zoro].command, commandList[zoro].arguments) == -1) {
+           		 else if (execvp(commandList[z].command, commandList[z].arguments) == -1) {
                     		printf("Command not found\n");
                  		
                 	}
                 	else
                 	{
-                        execvp(commandList[zoro].command,commandList[zoro].arguments);
+                        execvp(commandList[z].command,commandList[z].arguments);
                 	}
 		}
     
@@ -413,21 +413,21 @@ for(int sunny=0;sunny<tokenCount;sunny++)
        		 dup2(pipefd[0], 0);				//close and dup2 as necessary
         	close(pipefd[0]);
 
-		if(strcmp(commandList[zoro+1].command,"mypwd")==0)
+		if(strcmp(commandList[z+1].command,"mypwd")==0)
                 {                               //MYPWD functionality is here. We compare if our input is mypwd or not, if it is call the pwd command. 
                   execvp("pwd",s2);
                 }
-               else if(strcmp(commandList[zoro+1].command,"mycd")==0)
+               else if(strcmp(commandList[z+1].command,"mycd")==0)
                      {
-			chdir(commandList[zoro].command);
+			chdir(commandList[z].command);
 			}									//perform special commands as needed
-            else if (execvp(commandList[zoro+1].command, commandList[zoro+1].arguments) == -1) {
+            else if (execvp(commandList[z+1].command, commandList[z+1].arguments) == -1) {
                     printf("Command not found\n");
                  exit(1);
                 }
                 else
                 {
-                        execvp(commandList[zoro+1].command,commandList[zoro+1].arguments);
+                        execvp(commandList[z+1].command,commandList[z+1].arguments);
                 }
         }
 	else
@@ -446,11 +446,11 @@ for(int sunny=0;sunny<tokenCount;sunny++)
 if(tokenCount>=3)
 {
 
-int zoro=0;
+int z=0;
 int myFD[2];
 pid_t myPid;
 int myInput=0;
-for(zoro=0;zoro<tokenCount;zoro++)
+for(z=0;z<tokenCount;z++)
 {
       pipe(myFD);			
 	myPid=fork();	//for each command, open up a pipe and fork
@@ -461,24 +461,24 @@ for(zoro=0;zoro<tokenCount;zoro++)
       else if (myPid == 0)
         {
           dup2(myInput, 0); //change the input according to the old one 
-          if (zoro!=tokenCount-1)
+          if (z!=tokenCount-1)
             {dup2(myFD[1], 1);}			//redirect file output
           close(myFD[0]);	//close off input
-		 if(strcmp(commandList[zoro].command,"mypwd")==0)
+		 if(strcmp(commandList[z].command,"mypwd")==0)
                         {                               //MYPWD functionality is here. We compare if our input is mypwd or not, if it is call the pwd command. 
-                        execvp("pwd",commandList[zoro].arguments);
+                        execvp("pwd",commandList[z].arguments);
                         }
-                         else if(strcmp(commandList[zoro].command,"mycd")==0)
+                         else if(strcmp(commandList[z].command,"mycd")==0)
                         {
-				chdir(commandList[zoro].command);
+				chdir(commandList[z].command);
                         }
-                         else if (execvp(commandList[zoro].command, commandList[zoro].arguments) == -1) {
+                         else if (execvp(commandList[z].command, commandList[z].arguments) == -1) {
                                 printf("Command not found\n");
 
                         }
                         else						//execute our command if found
                         {
-                        execvp(commandList[zoro].command,commandList[zoro].arguments);
+                        execvp(commandList[z].command,commandList[z].arguments);
                         }
 
 
@@ -499,3 +499,4 @@ for(zoro=0;zoro<tokenCount;zoro++)
 
 
 }	
+
